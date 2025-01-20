@@ -1,0 +1,54 @@
+%YAML 1.2
+---
+
+distribution_name: 'SunnyOS'
+
+internet_connection_required: yes
+
+internet_checker_url: 'http://nmcheck.gnome.org/check_network_status.txt'
+
+fixed_language: no
+
+suggested_languages:
+    - 'de'
+    - 'en'
+    - 'es'
+    - 'fr'
+    - 'nl'
+    - 'uk'
+
+welcome_page:
+    logo    : '/usr/share/icons/sunnyos-logo-feather.png'
+    text    : 'Welcome to SunnyOS!'
+    usage   : yes
+
+minimum_disk_size: 20
+offer_disk_encryption: yes
+
+skip_user: yes
+skip_locale: yes
+
+# List of software that can additionally be selected for installation.
+# Each packages requires all fields to be set.
+#
+# package         string  Forwarded to the installation script as is.
+# suggested       bool    Optional. Whether installation defaults to yes.
+# name_LC         string  Name presented to user. Translatable.
+#                         If no (English) name is available, it will only
+#                         be shown for translated languages.
+# description_LC  string  Optional. Description presented to user. Translatable.
+# icon_path       string  Optional. Absolute path to icon to be displayed.
+#
+# Default: [], suggested: False, description: '', icon_path: fallback icon
+additional_software: []
+
+# Upon failure an option to search for help on the internet is given.
+# The url this leads to can be defined here. The squiggly brackets are
+# replaced with the os-installer version.
+#
+# Default: 'https://duckduckgo.com/?q="os-installer {}"+"failed installation"'
+failure_help_url: 'https://support.dist.ro/new_issue?q="failed"+"os-installer {}"'
+
+browser_cmd: 'epiphany'
+disks_cmd  : 'gnome-disks'
+wifi_cmd   : 'gnome-control-center network'
