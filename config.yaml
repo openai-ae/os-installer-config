@@ -25,6 +25,26 @@ welcome_page:
 minimum_disk_size: 20
 offer_disk_encryption: yes
 
+desktop:
+  - name        : 'GNOME'
+    description : 'Simple desktop that can be personalized with extensions.'
+    image_path  : ''
+    keyword     : 'gnome'
+  - name        : 'KDE Plasma'
+    description : 'WIP!!!'
+    image_path  : ''
+    keyword     : 'kde'
+  - name        : 'Hyprland'
+    description : 'WIP!!!'
+    image_path  : ''
+    keyword     : 'hyprland'
+
+user:
+  request_username: no
+  provide_autologin: no
+  min_password_length: 1
+  password_confirmation: yes
+
 skip_user: yes
 skip_locale: yes
 
@@ -42,12 +62,6 @@ skip_locale: yes
 # Default: [], suggested: False, description: '', icon_path: fallback icon
 additional_software: []
 
-# Upon failure an option to search for help on the internet is given.
-# The url this leads to can be defined here. The squiggly brackets are
-# replaced with the os-installer version.
-#
-# Default: 'https://duckduckgo.com/?q="os-installer {}"+"failed installation"'
-failure_help_url: 'https://support.dist.ro/new_issue?q="failed"+"os-installer {}"'
 
 browser_cmd: 'epiphany'
 disks_cmd  : 'gnome-disks'
