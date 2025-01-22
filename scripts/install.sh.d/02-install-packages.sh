@@ -8,8 +8,8 @@ sudo cp -rv "/etc/pacman.conf" "$workdir/etc/pacman.conf.new" || quit_on_err 'Fa
 sudo mv "$workdir/etc/pacman.conf.new" "$workdir/etc/pacman.conf" || quit_on_err 'Failed to write new pacman.conf'
 
 # Install remaining packages
-sudo arch-chroot "$workdir" pacman -S --noconfirm adw-gtk-theme application-cleaner bluez bluez-cups bluez-plugins bluez-utils btrfs-progs \
-    cups cups-pdf dosfstools e2fsprogs exfatprogs f2fs-tools feather-branding feather-gnome-config flatpak fuse fwupd gdm git gnome \
+sudo arch-chroot "$workdir" pacman -S --noconfirm adw-gtk-theme application-cleaner bluez bluez-plugins bluez-utils btrfs-progs \
+    dosfstools e2fsprogs exfatprogs f2fs-tools feather-branding feather-gnome-config flatpak fuse fwupd gdm git gnome \
     gnome-initial-setup gnome-shell-extension-advanced-tab-bar gnome-shell-extension-appindicator gnome-shell-extension-caffeine \
     gnome-shell-extension-dash-to-dock gnome-shell-extension-fly-pie gnome-shell-extension-just-perfection-desktop amd-ucode intel-ucode \
     gnome-shell-extension-rounded-corners gnome-shell-extension-rounded-window-corners gnome-shell-extension-tilingshell \

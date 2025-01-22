@@ -21,5 +21,5 @@ else
 fi
 
 # Update mkinitcpio
-touch "$workdir/usr/share/pixmaps/archlinux-logo.png" # For plymouth
+sudo touch "$workdir/usr/share/pixmaps/archlinux-logo.png" # For plymouth
 sudo arch-chroot $workdir mkinitcpio -P || quit_on_err 'Failed to generate initramfs'
