@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# Set custom keymap, very hacky but it gets the job done
-declare -r current_keymap=$(gsettings get org.gnome.desktop.input-sources sources)
-sudo mkdir -p "$workdir/etc/dconf/db/local.d"
-printf "[org/gnome/desktop/input-sources]\nsources = %s\n" "$current_keymap" |
-    sudo tee "$workdir/etc/dconf/db/local.d/keymap" ||
-    quit_on_err 'Failed to set dconf keymap'
+
+if [[ $OSI_DESKTOP == gnome ]]; then
+    # Set custom keymap, very hacky but it gets the job done
+    declare -r current_keymap=$(gsettings get org.gnome.desktop.input-sources sources)
+    sudo mkdir -p "$workdir/etc/dconf/db/local.d"
+    printf "[org/gnome/desktop/input-sources]\nsources = %s\n" "$current_keymap" |
+        sudo tee "$workdir/etc/dconf/db/local.d/keymap" ||
+        quit_on_err 'Failed to set dconf keymap'
+fi
 
 # Attempt to set vconsole keymap
 data=${current_keymap#*(}
