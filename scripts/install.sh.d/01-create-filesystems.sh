@@ -22,7 +22,7 @@ else
     root_partition="${OSI_DEVICE_PATH}"
     
     # Search for an existing EFI partition with at least 150MB of free space
-    efi_partition=$(lsblk -no NAME,FSTYPE,SIZE | awk '$2 == "vfat" && $3+0 >= 150 {print "/dev/"$1}' | head -n 1)
+    efi_partition=$(lsblk -no NAME,FSTYPE,SIZE | awk '$2 == "vfat" && $3+0 >= 150 {print "/dev/"$1}' | sed 's/[^a-zA-Z0-9/_]//g' | head -n 1)
     if [[ -z "$efi_partition" ]]; then
         quit_on_err 'No suitable EFI partition found with at least 150MB of free space'
     fi
@@ -51,5 +51,5 @@ sudo mount -o subvol=@,noatime,compress=zstd:1,discard=async "$root_device" "$wo
 sudo mkdir -p "$workdir/home"
 sudo mount -o subvol=@home,noatime,compress=zstd:1,discard=async "$root_device" "$workdir/home" || quit_on_err 'Failed to mount home subvolume'
 
-# Mount boot partition
-sudo mount --mkdir "$efi_partition" "$workdir/boot" || quit_on_err 'Failed to mount boot partition'
+# Mount efi partition
+sudo mount --mkdir "$efi_partition" "$workdir/efi" || quit_on_err 'Failed to mount efi partition'

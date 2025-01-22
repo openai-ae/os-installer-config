@@ -30,10 +30,12 @@ if [[ $OSI_DESKTOP == gnome ]]; then
         gnome-shell-extension-dash-to-dock gnome-shell-extension-fly-pie gnome-shell-extension-just-perfection-desktop \
         gnome-shell-extension-rounded-corners gnome-shell-extension-rounded-window-corners gnome-shell-extension-tilingshell \
         gnome-shell-extension-wiggle || quit_on_err "Failed to install GNOME customizations packages"
+
 elif [[ $OSI_DESKTOP == kde ]]; then
     sudo arch-chroot "$workdir" pacman -S --noconfirm plasma kdeconnect ffmpegthumbs dolphin-plugins \
     plymouth-kcm konsole krecorder ark filelight kde-system-meta kdenetwork-filesharing \
     kamoso elisa okular kimageformats || quit_on_err "Failed to install KDE packages"
+
 elif [[ $OSI_DESKTOP == hyprland ]]; then
     sudo arch-chroot "$workdir" pacman -S --noconfirm hyprland sddm || quit_on_err "Failed to install Hyprland packages"
 fi
