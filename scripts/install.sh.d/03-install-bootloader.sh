@@ -12,7 +12,7 @@ if command -v efibootmgr &> /dev/null; then
     
     # Copy overlay-uefi
     for f in "${osidir}/overlay-uefi/"*; do
-        sudo cp -rv "$f" "$workdir/" || quit_on_err 'Failed to copy uefi overlay'
+        sudo cp -rfv "$f" "$workdir/" || quit_on_err 'Failed to copy uefi overlay'
     done
 else
     sudo arch-chroot "$workdir" pacman -S --noconfirm --needed grub grub-btrfs os-prober || quit_on_err

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 if [[ $OSI_DESKTOP == gnome ]]; then
     # Set custom keymap, very hacky but it gets the job done
     declare -r current_keymap=$(gsettings get org.gnome.desktop.input-sources sources)
@@ -25,3 +24,9 @@ sudo arch-chroot "$workdir" mkinitcpio -P || quit_on_err 'Failed to execute mkin
 
 # Uncomment wheel in sudoers
 sudo sed -i "s|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|g" "$workdir/etc/sudoers"
+
+# Apply breeze sddm theme for KDE
+if [[ $OSI_DESKTOP == kde ]]; then
+    sudo mkdir -p "$workdir/etc/sddm.conf.d"
+    printf "[Theme]\Current=breeze\n" | sudo tee $workdir/etc/sddm.conf.d/theme.conf || quit_on_err 'Failed to apply breeze SDDM theme'
+fi

@@ -45,13 +45,13 @@ desktop:
     keyword     : 'hyprland'
 
 user:
-  request_username: no
-  provide_autologin: no
+  request_username: yes
+  provide_autologin: yes
   min_password_length: 1
   password_confirmation: yes
 
-skip_user: yes
-skip_locale: yes
+skip_user: no
+skip_locale: no
 
 # List of software that can additionally be selected for installation.
 # Each packages requires all fields to be set.
