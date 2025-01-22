@@ -23,7 +23,12 @@ welcome_page:
     usage   : yes
 
 minimum_disk_size: 20
-offer_disk_encryption: yes
+
+disk_encryption:
+  offered: yes
+  forced: no
+  min_length: 1
+  confirmation: yes
 
 desktop:
   - name        : 'GNOME'
