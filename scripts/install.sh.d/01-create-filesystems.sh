@@ -32,8 +32,8 @@ fi
 
 # Handle encryption and formatting logic
 if [[ "${OSI_USE_ENCRYPTION}" -eq 1 ]]; then
-    echo "${OSI_ENCRYPTION_PIN}" | sudo cryptsetup -q luksFormat "$root_partition" || quit_on_err 'Failed to format encrypted partition'
-    echo "${OSI_ENCRYPTION_PIN}" | sudo cryptsetup open "$root_partition" "$rootlabel" || quit_on_err 'Failed to open encrypted partition'
+    echo "${OSI_ENCRYPTION_PIN}" | sudo cryptsetup -q luksFormat "$root_partition"
+    echo "${OSI_ENCRYPTION_PIN}" | sudo cryptsetup open "$root_partition" "$rootlabel"
     root_device="/dev/mapper/$rootlabel"
 else
     root_device="$root_partition"
