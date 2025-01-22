@@ -13,7 +13,7 @@ sudo arch-chroot "$workdir" pacman -S --noconfirm adw-gtk-theme application-clea
     gnome-initial-setup gnome-shell-extension-advanced-tab-bar gnome-shell-extension-appindicator gnome-shell-extension-caffeine \
     gnome-shell-extension-dash-to-dock gnome-shell-extension-fly-pie gnome-shell-extension-just-perfection-desktop amd-ucode intel-ucode \
     gnome-shell-extension-rounded-corners gnome-shell-extension-rounded-window-corners gnome-shell-extension-tilingshell \
-    gnome-shell-extension-wiggle grml-zsh-config gst-plugin-pipewire gst-plugins-base gst-plugins-good \
+    gnome-shell-extension-wiggle grml-zsh-config gst-plugin-pipewire gst-plugins-base gst-plugins-good glibc-locales \
     ibus-typing-booster jfsutils lvm2 nano networkmanager networkmanager-openconnect networkmanager-openvpn noto-fonts noto-fonts-cjk \
     noto-fonts-emoji pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-pulse plymouth podman power-profiles-daemon switcheroo-control \
     webp-pixbuf-loader wget wireplumber xdg-user-dirs-gtk xdg-utils xorg-server yai zsh || quit_on_err "Failed to install desktop environment packages"

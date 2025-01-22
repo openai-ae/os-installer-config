@@ -9,7 +9,6 @@ sudo arch-chroot "$workdir" dconf update || quit_on_err 'Failed to update dconf'
 
 # Enable services
 sudo arch-chroot "$workdir" systemctl enable gdm || quit_on_err 'Failed to enable GDM'
-sudo arch-chroot "$workdir" systemctl enable cups || quit_on_err 'Failed to enable CUPS'
 sudo arch-chroot "$workdir" systemctl enable NetworkManager || quit_on_err 'Failed to enable NetworkManager'
 sudo arch-chroot "$workdir" systemctl enable switcheroo-control || quit_on_err 'Failed to enable switcheroo-control'
 sudo arch-chroot "$workdir" systemctl enable bluetooth || quit_on_err 'Failed to enable bluetooth'

@@ -19,3 +19,6 @@ localctl_exit_code=$?
 
 # Update mkinitcpio config
 sudo arch-chroot "$workdir" mkinitcpio -P || quit_on_err 'Failed to execute mkinitcpio'
+
+# Uncomment wheel in sudoers
+sudo sed -i "s|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|g" "$workdir/etc/sudoers"
