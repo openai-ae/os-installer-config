@@ -28,15 +28,15 @@ offer_disk_encryption: yes
 desktop:
   - name        : 'GNOME'
     description : 'Simple desktop that can be personalized with extensions.'
-    image_path  : ''
+    image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
     keyword     : 'gnome'
   - name        : 'KDE Plasma'
     description : 'WIP!!!'
-    image_path  : ''
+    image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
     keyword     : 'kde'
   - name        : 'Hyprland'
     description : 'WIP!!!'
-    image_path  : ''
+    image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
     keyword     : 'hyprland'
 
 user:
@@ -61,7 +61,6 @@ skip_locale: yes
 #
 # Default: [], suggested: False, description: '', icon_path: fallback icon
 additional_software: []
-
 
 browser_cmd: 'epiphany'
 disks_cmd  : 'gnome-disks'
