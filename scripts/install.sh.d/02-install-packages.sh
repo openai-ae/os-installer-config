@@ -5,7 +5,7 @@ if [[ $OSI_DESKTOP == '' ]]; then
 fi
 
 # Install basic system packages
-sudo pacstrap "$workdir" base base-devel linux linux-firmware mkinitcpio || quit_on_err 'Failed to install base packages'
+sudo pacstrap "$workdir" base linux linux-firmware mkinitcpio || quit_on_err 'Failed to install base packages'
 
 # Copy pacman.conf
 sudo cp -rv "/etc/pacman.conf" "$workdir/etc/pacman.conf.new" || quit_on_err 'Failed to write pacman.conf.new'

@@ -1,26 +1,40 @@
 #!/usr/bin/env bash
 
+if [[ "${OSI_USE_ENCRYPTION}" -eq 1 ]]; then
+    if [[ $UEFI == false ]]; then
+        quit_on_err 'Encryption with BIOS not supported, please enable UEFI or disable encryption'
+    fi
+fi
+
 # Handle disk partitioning
 if [[ "${OSI_DEVICE_IS_PARTITION}" -eq 0 ]]; then
     if [[ $UEFI == true ]]; then
         sudo sfdisk "${OSI_DEVICE_PATH}" < "${osidir}/bits/gpt.sfdisk" || quit_on_err 'Failed to write GPT partition table'
+        
+        root_partition="${partition_path}2"
+        efi_partition="${partition_path}1"
+
+        # Format EFI partition
+        sudo mkfs.fat -F32 -n "$bootlabel" "$efi_partition" || quit_on_err 'Failed to format EFI partition'
     else
         sudo sfdisk "${OSI_DEVICE_PATH}" < "${osidir}/bits/mbr.sfdisk" || quit_on_err 'Failed to write MBR partition table'
+
+        root_partition="${partition_path}1"
     fi
-    root_partition="${partition_path}2"
-    efi_partition="${partition_path}1"
-    # Format EFI partition
-    sudo mkfs.fat -F32 -n "$bootlabel" "$efi_partition" || quit_on_err 'Failed to format EFI partition'
 else
-    root_partition="${OSI_DEVICE_PATH}"
+    if [[ $UEFI == true ]]; then
+        root_partition="${OSI_DEVICE_PATH}"
     
-    # Search for an existing EFI partition with at least 150MB of free space
-    efi_partition=$(lsblk -no NAME,FSTYPE,SIZE | awk '$2 == "vfat" && $3+0 >= 150 {print "/dev/"$1}' | sed 's/[^a-zA-Z0-9/_]//g' | head -n 1)
-    if [[ -z "$efi_partition" ]]; then
-        quit_on_err 'No suitable EFI partition found with at least 150MB of free space'
+        # Search for an existing EFI partition with at least 150MB of free space
+        efi_partition=$(lsblk -no NAME,FSTYPE,SIZE | awk '$2 == "vfat" && $3+0 >= 150 {print "/dev/"$1}' | sed 's/[^a-zA-Z0-9/_]//g' | head -n 1)
+        if [[ -z "$efi_partition" ]]; then
+            quit_on_err 'No suitable EFI partition found with at least 150MB of free space'
+        fi
+        # Set EFI partition label
+        sudo fatlabel "$efi_partition" "$bootlabel" || quit_on_err 'Failed to set EFI partition label'
+    else
+        root_partition="${OSI_DEVICE_PATH}"
     fi
-    # Set EFI partition label
-    sudo fatlabel "$efi_partition" "$bootlabel" || quit_on_err 'Failed to set EFI partition label'
 fi
 
 # Handle encryption and formatting logic
@@ -47,7 +61,4 @@ sudo mount -o subvol=@home,noatime,compress=zstd:1,discard=async "$root_device" 
 if [[ $UEFI == true ]]; then
     # Mount efi partition
     sudo mount --mkdir "$efi_partition" "$workdir/efi" || quit_on_err 'Failed to mount efi partition'
-else
-    # Mount boot partition
-    sudo mount --mkdir "$efi_partition" "$workdir/boot/efi" || quit_on_err 'Failed to mount boot partition'
 fi

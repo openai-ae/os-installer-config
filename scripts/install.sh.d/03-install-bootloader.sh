@@ -2,7 +2,11 @@
 
 # find root_partition (need for correct UUID with LUKS)
 if [[ "${OSI_DEVICE_IS_PARTITION}" -eq 0 ]]; then
-    root_partition="${partition_path}2"
+    if [[ $UEFI == true ]]; then
+        root_partition="${partition_path}2"
+    else
+        root_partition="${partition_path}1"
+    fi
 else
     root_partition="${OSI_DEVICE_PATH}"
 fi
@@ -10,14 +14,14 @@ fi
 # Find UUID
 declare -r UUID=$(sudo blkid -o value -s UUID $root_partition)
 
-declare -r BASE_KERNEL_PARAM='rootfstype=btrfs rootflags="subvol=/@" lsm=landlock,lockdown,yama,integrity,apparmor,bpf quiet splash loglevel=3 systemd.show_status=auto rd.udev.log_level=3 rw'
+declare -r BASE_KERNEL_PARAM='lsm=landlock,lockdown,yama,integrity,apparmor,bpf quiet splash loglevel=3 systemd.show_status=auto rd.udev.log_level=3 rw'
 
 if [[ $UEFI == true ]]; then
     # Add cmdline options
     if [[ $OSI_USE_ENCRYPTION == 1 ]]; then
-	    echo "rd.luks.name=$UUID=$rootlabel root=/dev/mapper/$rootlabel $BASE_KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
+	    echo "rd.luks.name=$UUID=$rootlabel root=/dev/mapper/$rootlabel rootfstype=btrfs rootflags=subvol=@ $BASE_KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
     else
-	    echo "root=\"UUID=$UUID\" $BASE_KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
+	    echo "root=\"UUID=$UUID\" rootfstype=btrfs rootflags=subvol=@ $BASE_KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
     fi
 
     # Configure UKI
@@ -27,14 +31,6 @@ if [[ $UEFI == true ]]; then
 
     # Remove fallback initramfs
     sudo sed -i "s|fallback_image|#fallback_image|" "$workdir/etc/mkinitcpio.d/linux.preset"
-else
-    # Add cmdline options
-#    if [[ $OSI_USE_ENCRYPTION == 1 ]]; then
-#	    KERNEL_PARAM="rd.luks.name=$UUID=$rootlabel root=/dev/mapper/$rootlabel $BASE_KERNEL_PARAM"
-#    else
-#	    KERNEL_PARAM="root=\"UUID=$UUID\" $BASE_KERNEL_PARAM"
-#    fi
-    : # do nothing
 fi
 
 # Change mkinitcpio hooks
@@ -61,13 +57,12 @@ if [[ $UEFI == true ]]; then
     echo -e "timeout 5\nconsole-mode max\neditor yes\nauto-entries yes\nauto-firmware yes" | sudo tee "$workdir/efi/loader/loader.conf" > /dev/null
 else
     sudo arch-chroot "$workdir" pacman -S --noconfirm --needed grub grub-btrfs os-prober || quit_on_err
-    sudo arch-chroot "$workdir" grub-install --target=i386-pc "${OSI_DEVICE_PATH}" || quit_on_err 'Failed to install GRUB for BIOS'
-    sudo arch-chroot "$workdir" os-prober || quit_on_err 'Failed to execute os-prober'
-    
+
     # Change GRUB config settings
     sudo sed -i 's|"Arch"|"SunnyOS"|g' "$workdir/etc/default/grub"
-    sudo sed -i 's|"loglevel=3 quiet"|"rootfstype=btrfs rootflags="subvol=/@" lsm=landlock,lockdown,yama,integrity,apparmor,bpf quiet splash loglevel=3 systemd.show_status=auto rd.udev.log_level=3 rw"|g' "$workdir/etc/default/grub"
-    
-    # Write GRUB config
+    sudo sed -i "s|\"loglevel=3 quiet\"|\"$BASE_KERNEL_PARAM\"|g" "$workdir/etc/default/grub"
+
+    sudo arch-chroot "$workdir" grub-install --target=i386-pc "${OSI_DEVICE_PATH}" || quit_on_err 'Failed to install GRUB for BIOS'
+    sudo arch-chroot "$workdir" os-prober || quit_on_err 'Failed to execute os-prober'
     sudo arch-chroot "$workdir" grub-mkconfig -o /boot/grub/grub.cfg || quit_on_err 'Failed to generate GRUB configuration'
 fi
