@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare -r KERNEL_PARAM='rootflags="subvol=@" lsm=landlock,lockdown,yama,integrity,apparmor,bpf quiet splash loglevel=3 systemd.show_status=auto rd.udev.log_level=3 rw'
+declare -r KERNEL_PARAM='rootfstype=btrfs rootflags="subvol=/@" lsm=landlock,lockdown,yama,integrity,apparmor,bpf quiet splash loglevel=3 systemd.show_status=auto rd.udev.log_level=3 rw'
 declare -r UUID=$(sudo blkid -o value -s UUID $(findmnt -n -o SOURCE $workdir | cut -d'[' -f1))
 
 if [[ $OSI_USE_ENCRYPTION == 1 ]]; then
@@ -8,13 +8,13 @@ if [[ $OSI_USE_ENCRYPTION == 1 ]]; then
 	echo "rd.luks.name=$UUID=$rootlabel root=/dev/mapper/$rootlabel $KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
 
     # Change mkinitcpio hooks
-	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth autodetect keyboard keymap consolefont modconf block sd-encrypt filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
+	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf block sd-encrypt filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
 else
     # Add cmdline options
 	echo "root=\"UUID=$UUID\" $KERNEL_PARAM" | sudo tee -a "$workdir/etc/kernel/cmdline" || quit_on_err 'Failed to configure cmdline'
 
     # Change mkinitcpio hooks
-	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth autodetect keyboard keymap consolefont modconf block filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
+	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf block filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
 fi
 
 # Configure UKI

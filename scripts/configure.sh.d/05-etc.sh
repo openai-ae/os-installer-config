@@ -15,9 +15,10 @@ data=${data%%)*}
 data=${data#*,}
 data=${data//\'}
 data=${data%%+*}
+data=${data// /}
 sudo localectl set-keymap "$data"
 localctl_exit_code=$?
-[[ $localctl_exit_code -ne 0 ]] && printf 'Failed to detect keymap, vconsole will default to US international\n'
+[[ $localctl_exit_code -ne 0 ]] && printf 'Failed to detect keymap, vconsole will default to US international\n' && sudo localectl set-keymap "us"
 
 # Update mkinitcpio config
 sudo arch-chroot "$workdir" mkinitcpio -P || quit_on_err 'Failed to execute mkinitcpio'
