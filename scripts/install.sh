@@ -7,6 +7,21 @@ declare -r scriptsdir="$osidir/scripts/install.sh.d"
 declare -r rootlabel='sunny_root'
 declare -r bootlabel='sunny_esp'
 
+# Determine partition naming for NVMe drives
+if [[ "${OSI_DEVICE_PATH}" == *"nvme"*"n"* ]]; then
+    partition_path="${OSI_DEVICE_PATH}p"
+else
+    partition_path="${OSI_DEVICE_PATH}"
+fi
+
+efibootmgr
+efibootmgr_exit_code=$?
+if [[ $efibootmgr_exit_code == 2 ]]; then
+    UEFI="false"
+else
+    UEFI="true"
+fi
+
 # Quit script with error if called
 quit_on_err () {
     if [[ -n $1 ]]; then
