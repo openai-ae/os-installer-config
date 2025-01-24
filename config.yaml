@@ -36,7 +36,7 @@ desktop:
     image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
     keyword     : 'gnome'
   - name        : 'KDE Plasma'
-    description : 'WIP!!!'
+    description : 'Configurable desktop that is similar to Windows.'
     image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
     keyword     : 'kde'
   - name        : 'Hyprland'

@@ -22,11 +22,3 @@ localctl_exit_code=$?
 
 # Update mkinitcpio config
 sudo arch-chroot "$workdir" mkinitcpio -P || quit_on_err 'Failed to execute mkinitcpio'
-
-# Apply themes for KDE
-if [[ $OSI_DESKTOP == kde ]]; then
-    sudo mkdir -p "$workdir/etc/sddm.conf.d"
-    printf "[Theme]\Current=breeze\n" | sudo tee "$workdir/etc/sddm.conf.d/theme.conf" || quit_on_err 'Failed to apply breeze SDDM theme'
-    sudo mkdir -p "$workdir/etc/skel/.config"
-    printf "[General]\nColorScheme=BreezeDark\n[KDE]\nLookAndFeelPackage=org.kde.breezedark.desktop" | sudo tee "$workdir/etc/skel/.config/kdeglobals" || quit_on_err 'Failed to apply Breeze Dark theme'
-fi
