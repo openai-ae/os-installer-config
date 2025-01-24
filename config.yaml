@@ -33,11 +33,11 @@ disk_encryption:
 desktop:
   - name        : 'GNOME'
     description : 'Simple desktop that can be personalized with extensions.'
-    image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
+    image_path  : '/etc/os-installer/bits/gnome.png'
     keyword     : 'gnome'
   - name        : 'KDE Plasma'
     description : 'Configurable desktop that is similar to Windows.'
-    image_path  : '/usr/share/icons/hicolor/scalable/apps/qv4l2.svg' # TEMP
+    image_path  : '/etc/os-installer/bits/plasma.png'
     keyword     : 'kde'
   - name        : 'Hyprland'
     description : 'WIP!!!'
