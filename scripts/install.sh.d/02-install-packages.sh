@@ -26,7 +26,7 @@ if [[ $OSI_DESKTOP == gnome ]]; then
     
     # Feather customizations
     sudo arch-chroot "$workdir" pacman -S --noconfirm adw-gtk-theme feather-gnome-config \
-        gnome-initial-setup gnome-shell-extension-advanced-tab-bar gnome-shell-extension-appindicator gnome-shell-extension-caffeine \
+        gnome-shell-extension-advanced-tab-bar gnome-shell-extension-appindicator gnome-shell-extension-caffeine \
         gnome-shell-extension-dash-to-dock gnome-shell-extension-fly-pie gnome-shell-extension-just-perfection-desktop \
         gnome-shell-extension-rounded-corners gnome-shell-extension-rounded-window-corners gnome-shell-extension-tilingshell \
         gnome-shell-extension-wiggle || quit_on_err "Failed to install GNOME customizations packages"
