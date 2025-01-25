@@ -35,7 +35,7 @@ fi
 
 # Change mkinitcpio hooks
 if [[ $OSI_USE_ENCRYPTION == 1 ]]; then
-	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf block sd-encrypt filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
+	sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf sd-vconsole block sd-encrypt filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
 else
     sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf block filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
 fi

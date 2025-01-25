@@ -22,7 +22,7 @@ sudo arch-chroot "$workdir" pacman -S --noconfirm application-cleaner bluez blue
 # Install DE packages
 if [[ $OSI_DESKTOP == gnome ]]; then
     # GNOME itself
-    sudo arch-chroot "$workdir" pacman -S --noconfirm gnome xorg-server || quit_on_err "Failed to install GNOME packages"
+    sudo arch-chroot "$workdir" pacman -S --noconfirm gnome xorg-server firefox || quit_on_err "Failed to install GNOME packages"
     
     # Feather customizations
     sudo arch-chroot "$workdir" pacman -S --noconfirm adw-gtk-theme feather-gnome-config \
@@ -31,11 +31,12 @@ if [[ $OSI_DESKTOP == gnome ]]; then
         gnome-shell-extension-rounded-corners gnome-shell-extension-rounded-window-corners gnome-shell-extension-tilingshell \
         gnome-shell-extension-wiggle || quit_on_err "Failed to install GNOME customizations packages"
 
+    sudo arch-chroot "$workdir" pacman -Rs --noconfirm epiphany yelp gnome-user-docs
 elif [[ $OSI_DESKTOP == kde ]]; then
     sudo arch-chroot "$workdir" pacman -S --noconfirm plasma kdeconnect ffmpegthumbs dolphin-plugins \
     plymouth-kcm konsole krecorder ark filelight kde-system-meta kdenetwork-filesharing \
-    kamoso elisa okular kimageformats kwin-effect-rounded-corners feather-plasma-config || quit_on_err "Failed to install KDE packages"
+    kamoso elisa okular kimageformats kwin-effect-rounded-corners feather-plasma-config firefox || quit_on_err "Failed to install KDE packages"
 
 elif [[ $OSI_DESKTOP == hyprland ]]; then
-    sudo arch-chroot "$workdir" pacman -S --noconfirm hyprland sddm || quit_on_err "Failed to install Hyprland packages"
+    sudo arch-chroot "$workdir" pacman -S --noconfirm hyprland sddm firefox kitty || quit_on_err "Failed to install Hyprland packages"
 fi
