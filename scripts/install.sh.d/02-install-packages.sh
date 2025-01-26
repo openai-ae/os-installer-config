@@ -14,7 +14,7 @@ sudo mv "$workdir/etc/pacman.conf.new" "$workdir/etc/pacman.conf" || quit_on_err
 # Install remaining packages
 sudo arch-chroot "$workdir" pacman -S --noconfirm application-cleaner bluez bluez-plugins bluez-utils btrfs-progs noto-fonts-cjk \
     dosfstools e2fsprogs exfatprogs f2fs-tools feather-branding flatpak fuse fwupd git switcheroo-control xdg-desktop-portal-gtk \
-    grml-zsh-config gst-plugin-pipewire gst-plugins-base gst-plugins-good glibc-locales amd-ucode intel-ucode power-profiles-daemon \
+    starship gst-plugin-pipewire gst-plugins-base gst-plugins-good glibc-locales amd-ucode intel-ucode power-profiles-daemon \
     sudo sunny-keyring ibus-typing-booster jfsutils lvm2 nano networkmanager networkmanager-openconnect networkmanager-openvpn noto-fonts \
     noto-fonts-emoji pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-pulse icoutils plymouth podman \
     webp-pixbuf-loader wget wireplumber xdg-user-dirs-gtk xdg-utils yai zsh || quit_on_err "Failed to install system packages"
