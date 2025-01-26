@@ -40,9 +40,6 @@ else
     sudo sed -i '/^#/!s/HOOKS=(.*)/HOOKS=(systemd plymouth microcode autodetect keyboard keymap consolefont modconf block filesystems fsck)/g' "$workdir/etc/mkinitcpio.conf" || quit_on_err 'Failed to set hooks'
 fi
 
-# Touch archlinux-logo.png for fix plymouth error
-sudo touch "$workdir/usr/share/pixmaps/archlinux-logo.png"
-
 # Generate the fstab file
 sudo chmod 666 "$workdir/etc/fstab" || quit_on_err "Failed to change fstab permissions"
 sudo genfstab -U "$workdir" > "$workdir/etc/fstab" || quit_on_err "Failed to generate fstab file"
