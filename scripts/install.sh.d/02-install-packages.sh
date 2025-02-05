@@ -34,8 +34,8 @@ if [[ $OSI_DESKTOP == gnome ]]; then
     sudo arch-chroot "$workdir" pacman -Rs --noconfirm epiphany yelp gnome-user-docs
 elif [[ $OSI_DESKTOP == kde ]]; then
     sudo arch-chroot "$workdir" pacman -S --noconfirm plasma kdeconnect ffmpegthumbs dolphin-plugins \
-    plymouth-kcm konsole krecorder ark filelight kde-system-meta kdenetwork-filesharing \
-    kamoso elisa okular kimageformats kwin-effect-rounded-corners feather-plasma-config firefox || quit_on_err "Failed to install KDE packages"
+    plymouth-kcm konsole krecorder ark filelight kde-system-meta kdenetwork-filesharing kate spectacle \
+    kamoso elisa okular kimageformats kwin-effect-rounded-corners feather-plasma-config firefox kaccounts-providers || quit_on_err "Failed to install KDE packages"
 
 elif [[ $OSI_DESKTOP == hyprland ]]; then
     sudo arch-chroot "$workdir" pacman -S --noconfirm hyprland sddm firefox kitty || quit_on_err "Failed to install Hyprland packages"
