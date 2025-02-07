@@ -67,6 +67,6 @@ skip_locale: no
 # Default: [], suggested: False, description: '', icon_path: fallback icon
 additional_software: []
 
-browser_cmd: 'epiphany'
+browser_cmd: 'firefox'
 disks_cmd  : 'gnome-disks'
 wifi_cmd   : 'gnome-control-center network'
