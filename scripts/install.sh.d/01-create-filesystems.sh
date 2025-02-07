@@ -15,7 +15,7 @@ if [[ "${OSI_DEVICE_IS_PARTITION}" -eq 0 ]]; then
         efi_partition="${partition_path}1"
 
         # Format EFI partition
-        sudo mkfs.fat -F32 -n "$bootlabel" "$efi_partition" || quit_on_err 'Failed to format EFI partition'
+        sudo mkfs.fat -F32 "$efi_partition" || quit_on_err 'Failed to format EFI partition'
     else
         sudo sfdisk "${OSI_DEVICE_PATH}" < "${osidir}/bits/mbr.sfdisk" || quit_on_err 'Failed to write MBR partition table'
 
@@ -29,8 +29,6 @@ else
         if [[ -z "$efi_partition" ]]; then
             quit_on_err 'No EFI partition found. Please create a fat32 partition with at least 100 MB of space and boot flag'
         fi
-        # Set EFI partition label
-        sudo fatlabel "$efi_partition" "$bootlabel" || quit_on_err 'Failed to set EFI partition label'
     else
         root_partition="${OSI_DEVICE_PATH}"
     fi

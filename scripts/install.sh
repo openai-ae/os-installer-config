@@ -5,7 +5,6 @@ declare -r workdir='/mnt'
 declare -r osidir='/etc/os-installer'
 declare -r scriptsdir="$osidir/scripts/install.sh.d"
 declare -r rootlabel='sunny_root'
-declare -r bootlabel='sunny_esp'
 
 # Determine partition naming for NVMe drives
 if [[ "${OSI_DEVICE_PATH}" == *"nvme"*"n"* ]]; then
