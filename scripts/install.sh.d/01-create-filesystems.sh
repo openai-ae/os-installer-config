@@ -25,10 +25,9 @@ else
     if [[ $UEFI == true ]]; then
         root_partition="${OSI_DEVICE_PATH}"
     
-        # Search for an existing EFI partition with at least 150MB of free space
-        efi_partition=$(lsblk -blno NAME,FSTYPE,SIZE | awk '$2 == "vfat" && $3 >= 157286400 {print "/dev/" $1}' | head -n 1)
+        efi_partition="${OSI_DEVICE_EFI_PARTITION}"
         if [[ -z "$efi_partition" ]]; then
-            quit_on_err 'No suitable EFI partition found with at least 150MB of free space'
+            quit_on_err 'No EFI partition found. Please create a fat32 partition with at least 100 MB of space and boot flag'
         fi
         # Set EFI partition label
         sudo fatlabel "$efi_partition" "$bootlabel" || quit_on_err 'Failed to set EFI partition label'
