@@ -3,26 +3,25 @@
 
 distribution_name: 'SunnyOS'
 
-internet_connection_required: yes
+scripts:
+  prepare: /etc/os-installer/scripts/prepare.sh
+  install: /etc/os-installer/scripts/install.sh
+  configure: /etc/os-installer/scripts/configure.sh
 
-internet_checker_url: 'http://nmcheck.gnome.org/check_network_status.txt'
+internet:
+  connection_required: yes
+  checker_url: 'http://nmcheck.gnome.org/check_network_status.txt'
 
 fixed_language: no
-
-suggested_languages:
-    - 'de'
-    - 'en'
-    - 'es'
-    - 'fr'
-    - 'nl'
-    - 'uk'
 
 welcome_page:
     logo    : '/usr/share/icons/sunnyos-logo-feather.png'
     text    : 'Welcome to SunnyOS!'
     usage   : yes
 
-minimum_disk_size: 20
+disk:
+  partition_ok: yes
+  min_size: 20
 
 disk_encryption:
   offered: yes
@@ -53,20 +52,16 @@ user:
 skip_user: no
 skip_locale: no
 
-# List of software that can additionally be selected for installation.
-# Each packages requires all fields to be set.
-#
-# package         string  Forwarded to the installation script as is.
-# suggested       bool    Optional. Whether installation defaults to yes.
-# name_LC         string  Name presented to user. Translatable.
-#                         If no (English) name is available, it will only
-#                         be shown for translated languages.
-# description_LC  string  Optional. Description presented to user. Translatable.
-# icon_path       string  Optional. Absolute path to icon to be displayed.
-#
-# Default: [], suggested: False, description: '', icon_path: fallback icon
 additional_software: []
 
-browser_cmd: 'epiphany'
-disks_cmd  : 'gnome-disks'
-wifi_cmd   : 'gnome-control-center network'
+additional_features: []
+
+install_slideshow: []
+
+failure_help_url: 'https://github.com/openai-ae/SunnyOS/issues'
+
+commands:
+  browser: 'firefox'
+  disks  : 'gnome-disks'
+  reboot : 'shutdown -r now'
+  wifi   : 'gnome-control-center network'
