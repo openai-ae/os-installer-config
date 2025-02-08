@@ -17,3 +17,5 @@ fi
 sudo arch-chroot "$workdir" systemctl enable NetworkManager || quit_on_err 'Failed to enable NetworkManager'
 sudo arch-chroot "$workdir" systemctl enable switcheroo-control || quit_on_err 'Failed to enable switcheroo-control'
 sudo arch-chroot "$workdir" systemctl enable bluetooth || quit_on_err 'Failed to enable bluetooth'
+sudo arch-chroot "$workdir" systemctl enable systemd-timesyncd || quit_on_err 'Failed to enable systemd-timesyncd'
+sudo arch-chroot "$workdir" systemctl enable systemd-oomd || quit_on_err 'Failed to enable systemd-oomd'
