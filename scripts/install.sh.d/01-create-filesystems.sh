@@ -48,12 +48,17 @@ sudo mkfs.btrfs -f -L "$rootlabel" "$root_device" || quit_on_err 'Failed to form
 sudo mount "$root_device" "$workdir" || quit_on_err 'Failed to mount root filesystem'
 sudo btrfs subvolume create "$workdir/@"
 sudo btrfs subvolume create "$workdir/@home"
+sudo btrfs subvolume create "$workdir/@log"
+sudo btrfs subvolume create "$workdir/@pkg"
+sudo btrfs subvolume create "$workdir/@.snapshots"
 
 # Unmount and remount with subvolumes
 sudo umount "$workdir"
-sudo mount -o subvol=@,noatime,compress=zstd:1,discard=async "$root_device" "$workdir" || quit_on_err 'Failed to mount root subvolume'
-sudo mkdir -p "$workdir/home"
-sudo mount -o subvol=@home,noatime,compress=zstd:1,discard=async "$root_device" "$workdir/home" || quit_on_err 'Failed to mount home subvolume'
+sudo mount -o noatime,compress=zstd:1,space_cache=v2,autodefrag,subvol=@ "$root_device" "$workdir" || quit_on_err 'Failed to mount /mnt'
+sudo mount --mkdir -o noatime,compress=zstd:1,space_cache=v2,autodefrag,subvol=@home,nodev "$root_device" "$workdir/home" || quit_on_err 'Failed to mount /mnt/home'
+sudo mount --mkdir -o noatime,compress=zstd:1,space_cache=v2,autodefrag,subvol=@log,nodev,nosuid,noexec "$root_device" "$workdir/var/log" || quit_on_err 'Failed to mount /mnt/var/log'
+sudo mount --mkdir -o noatime,compress=zstd:1,space_cache=v2,autodefrag,subvol=@pkg,nodev,nosuid,noexec "$root_device" "$workdir/var/cache/pacman/pkg" || quit_on_err 'Failed to mount /mnt/var/cache/pacman/pkg'
+sudo mount --mkdir -o noatime,compress=zstd:1,space_cache=v2,autodefrag,subvol=@.snapshots,nodev,nosuid,noexec "$root_device" "$workdir/.snapshots" || quit_on_err 'Failed to mount /mnt/.snapshots'
 
 if [[ $UEFI == true ]]; then
     # Mount efi partition
