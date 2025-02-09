@@ -2,7 +2,7 @@
 
 # Declare base packages
 declare -a pkgs=(
-    application-cleaner bluez bluez-plugins bluez-utils btrfs-progs noto-fonts-cjk
+    apparmor application-cleaner bluez bluez-cups bluez-plugins bluez-utils btrfs-progs cups noto-fonts-cjk
     exfatprogs f2fs-tools feather-branding flatpak fuse fwupd git switcheroo-control
     xdg-desktop-portal-gtk starship gst-plugin-pipewire gst-plugins-base gst-plugins-good
     glibc-locales amd-ucode intel-ucode power-profiles-daemon sudo sunny-keyring
